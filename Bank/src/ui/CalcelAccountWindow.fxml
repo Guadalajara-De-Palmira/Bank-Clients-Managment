@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.241" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="28.0" layoutY="69.0" text="Razón de cancelación:" />
+      <TextArea fx:id="reasonOfCancelationText" layoutX="166.0" layoutY="69.0" prefHeight="190.0" prefWidth="293.0" />
+      <Button layoutX="262.0" layoutY="285.0" mnemonicParsing="false" onAction="#cancelAccount" text="Cancelar cuenta" />
+   </children>
+</Pane>

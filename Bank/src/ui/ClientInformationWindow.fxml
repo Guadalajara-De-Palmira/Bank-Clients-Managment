@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.241" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="121.0" layoutY="32.0" text="Nombre:" />
+      <Label layoutX="30.0" layoutY="74.0" text="Número de identificación:" />
+      <Label layoutX="25.0" layoutY="115.0" text="Fecha de ingreso al banco:" />
+      <Label layoutX="17.0" layoutY="154.0" text="Número de cuenta bancaria:" />
+      <Label layoutX="18.0" layoutY="192.0" text="Monto de dinero en cuenta:" />
+      <Label layoutX="66.0" layoutY="232.0" text="Número de tarjeta:" />
+      <Label layoutX="24.0" layoutY="271.0" text="Credito usado de la tarjeta:" />
+      <Button layoutX="472.0" layoutY="62.0" mnemonicParsing="false" onAction="#payCreditCard" text="Pagar tarjeta" />
+      <Button layoutX="455.0" layoutY="180.0" mnemonicParsing="false" onAction="#deposit" text="Consignar a cuenta" />
+      <Button layoutX="463.0" layoutY="324.0" mnemonicParsing="false" onAction="#cancelAccount" text="Cancelar cuenta" />
+      <Label fx:id="nameLabel" layoutX="201.0" layoutY="32.0" text="Label" />
+      <Label fx:id="IDLabel" layoutX="201.0" layoutY="74.0" text="Label" />
+      <Label fx:id="entranceDateLabel" layoutX="201.0" layoutY="115.0" text="Label" />
+      <Label fx:id="accountIDLabel" layoutX="201.0" layoutY="154.0" text="Label" />
+      <Label fx:id="ammountLabel" layoutX="201.0" layoutY="192.0" text="Label" />
+      <Label fx:id="cardIDLabel" layoutX="201.0" layoutY="232.0" text="Label" />
+      <Label fx:id="creditInCardLabel" layoutX="201.0" layoutY="271.0" text="Label" />
+   </children>
+</Pane>
