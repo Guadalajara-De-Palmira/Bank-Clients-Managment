@@ -11,6 +11,7 @@ public class Account {
 		this.id = id;
 		this.savings = savings;
 		this.active = true;
+		this.retirementReason = "";
 	}
 
 	//getters

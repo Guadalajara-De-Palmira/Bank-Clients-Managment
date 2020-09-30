@@ -2,6 +2,7 @@ package ui;
 
 import java.io.IOException;
 
+import customStructureExceptions.FullStructureException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -18,7 +19,7 @@ public class Main extends Application{
 	
 	private Bank bank;
 	
-	public Main() {
+	public Main() throws IOException, FullStructureException {
 		bank = new Bank();
 		mainWindowGUI = new MainWindowGUI(bank);
 	}
@@ -35,7 +36,7 @@ public class Main extends Application{
 		Parent root = fxmlLoader.load();
 		Scene scene = new Scene(root,900,500);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("veterinary");
+		primaryStage.setTitle("Bank");
 		primaryStage.setResizable(true);
 		primaryStage.show();
 		
