@@ -9,11 +9,14 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import model.Bank;
+import threads.InitializeProgramThread;
 
 
 public class MainWindowGUI {
 
 	private Bank bank;
+	
+	private InitializeProgramThread initializeProgram;
 	
 	private ClientsTableGUI clientsTable;
 	
@@ -34,12 +37,23 @@ public class MainWindowGUI {
     private Button tableButton;
     
 	public MainWindowGUI(Bank bank) {
-		this.bank = bank;
+		if(bank==null) {
+			this.bank = bank;
+		}
 		
-		clientsTable = new ClientsTableGUI(bank);
-		attendClients = new AttendClientGUI(bank,this);
-		registerClients = new RegisterClientGUI(bank);
-
+		if(clientsTable==null) {
+			clientsTable = new ClientsTableGUI(bank);
+		}
+		
+		if(attendClients==null) {
+			attendClients = new AttendClientGUI(bank,this);
+		}
+		
+		if(registerClients==null) {
+			registerClients = new RegisterClientGUI(bank);
+		}
+		
+		initializeProgram = new InitializeProgramThread(bank);
 	}
 
     @FXML
@@ -72,4 +86,8 @@ public class MainWindowGUI {
     public BorderPane getMainPane() {
     	return mainPane;
     }
+    
+	public void initialize() {
+		initializeProgram.start();
+	}
 }

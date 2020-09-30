@@ -12,16 +12,24 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.Bank;
+import threads.InitializeProgramThread;
 
 public class Main extends Application{
 
 	private MainWindowGUI mainWindowGUI;
 	
+	
 	private Bank bank;
 	
 	public Main() throws IOException, FullStructureException {
-		bank = new Bank();
-		mainWindowGUI = new MainWindowGUI(bank);
+		if(bank==null) {
+			bank = new Bank();
+		}
+		
+		if(mainWindowGUI==null) {
+			mainWindowGUI = new MainWindowGUI(bank);
+		}
+
 	}
 	
 	public static void main(String[]args) {
