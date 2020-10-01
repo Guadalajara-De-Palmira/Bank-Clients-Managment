@@ -2,11 +2,14 @@ package ui;
 
 import java.io.IOException;
 
+import customStructureExceptions.EmptyStructureException;
+import customStructureExceptions.NotFoundException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Alert;
 import model.Bank;
 import model.Client;
 
@@ -36,9 +39,18 @@ public class AttendClientGUI {
     }
 
     @FXML
-    void attendPriorityQueue(ActionEvent event) throws IOException {
+    public void attendPriorityQueue(ActionEvent event) throws IOException {
     	
-    	//añadir que aquí se haga una busqueda del cliente con priorityQueue
+    	try {
+			client = bank.searchClientFromPriorityQueue();
+		} catch (EmptyStructureException | NotFoundException e) {
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setHeaderText("Error");
+			alert.setTitle("Alert");
+			alert.setContentText("el cliente no se encuentra en la base de datos");
+			alert.showAndWait();
+		}
+    	
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ClientInformationWindow.fxml"));
     	fxmlLoader.setController(clientInformation);
     	
@@ -47,8 +59,18 @@ public class AttendClientGUI {
     }
 
     @FXML
-    void attendQueue(ActionEvent event) throws IOException {
-    	//añadir que aquí se haga una busqueda del cliente con Queue
+    public void attendQueue(ActionEvent event) throws IOException {
+    	
+    	try {
+			client = bank.searchClientFromQueue();
+		} catch (NotFoundException e) {
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setHeaderText("Error");
+			alert.setTitle("Alert");
+			alert.setContentText("el cliente no se encuentra en la base de datos");
+			alert.showAndWait();
+		}
+    	
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ClientInformationWindow.fxml"));
     	fxmlLoader.setController(clientInformation);
     	

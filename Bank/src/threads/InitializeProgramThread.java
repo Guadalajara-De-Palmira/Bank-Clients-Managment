@@ -18,6 +18,7 @@ public class InitializeProgramThread extends Thread{
 		
 		try {
 			bank.init();
+			System.out.println("nice");
 		} catch (IOException | FullStructureException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

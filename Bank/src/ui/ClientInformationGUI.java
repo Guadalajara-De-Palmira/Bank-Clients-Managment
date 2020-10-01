@@ -51,14 +51,33 @@ public class ClientInformationGUI {
 		this.bank = bank;
 		this.mainWindow = mainWindow;
 		this.attendclient = attendClient;
-		this.client = this.attendclient.getClient();
 		
 		if(payCard==null) {
 			payCard = new PayCreditCardGUI(bank,this);
 			deposit = new DepositGUI(bank,this);
 			cancelAccount = new CancelAccountGUI(bank,this);
 		}
+		
 	}
+    
+    public void initialize() {
+		this.client = this.attendclient.getClient();
+    	nameLabel.setText(client.getName());
+    	System.out.println(nameLabel.getText());
+    	IDLabel.setText(String.valueOf(client.getId()));
+    	entranceDateLabel.setText(String.valueOf(client.getEntranceDate()));
+    	accountIDLabel.setText(String.valueOf(client.getAccount().getId()));
+    	ammountLabel.setText(String.valueOf(client.getAccount().getSavings()));
+    	if(client.getCreditCard()!=null) {
+    		cardIDLabel.setText(String.valueOf(client.getCreditCard().getId()));
+    		creditInCardLabel.setText(String.valueOf(client.getCreditCard().getUsedAmount()));
+    	}else {
+    		cardIDLabel.setText("no tiene");
+    		creditInCardLabel.setText("no tiene");
+    	}
+    	
+    	
+    }
     
     @FXML
     void cancelAccount(ActionEvent event) throws IOException {

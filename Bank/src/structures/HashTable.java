@@ -42,11 +42,11 @@ public class HashTable<K,E> implements IHashTable<K, E> {
 	public E tableRetrieve(K key) throws NotFoundException {
 		boolean found = false;
 		Element element = null;
-		
+		System.out.println(key);
 		for(int i=0; i<elements.length && !found;i++) {
 			
 			int index = (this.hashFunction((int)key)+i)%elements.length;
-			
+
 			if(elements[index]==null) {
 				throw new NotFoundException("The element was not found in the hash table");
 				

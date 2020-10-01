@@ -66,6 +66,10 @@ public class Client implements Comparable<Client>,Cloneable{
 		this.disabilities = disabilities;
 	}
 
+	@Override
+	public int hashCode() {
+		return id;
+	}
 
 	@Override
 	public int compareTo(Client toCompare) {

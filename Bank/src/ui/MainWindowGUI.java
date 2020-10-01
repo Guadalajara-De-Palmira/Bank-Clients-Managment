@@ -39,6 +39,7 @@ public class MainWindowGUI {
 	public MainWindowGUI(Bank bank) {
 		if(bank==null) {
 			this.bank = bank;
+
 		}
 		
 		if(clientsTable==null) {
@@ -52,7 +53,6 @@ public class MainWindowGUI {
 		if(registerClients==null) {
 			registerClients = new RegisterClientGUI(bank);
 		}
-		
 		initializeProgram = new InitializeProgramThread(bank);
 	}
 

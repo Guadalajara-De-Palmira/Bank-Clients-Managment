@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import customStructureExceptions.EmptyStructureException;
@@ -21,6 +23,7 @@ public class Bank {
 	private Stack<Client> undoStack;
 	private HashTable<Integer,Client> clientDataBase;
 	private HashTable<Integer,Client> retiredClients;
+	private Calendar calendar = new GregorianCalendar();
 	
 	public Bank () throws IOException, FullStructureException {
 		generalQueue = new Queue<ClientInQueue>();
@@ -52,7 +55,6 @@ public class Bank {
 			String[] data = actualClient.split(",");
 			
 			Account account = new Account(Integer.parseInt(data[2]),Double.parseDouble(data[3]));
-			
 			CreditCard cCard = null;
 			
 			if (!data[4].equals("")) {
@@ -64,7 +66,7 @@ public class Bank {
 			
 			clientDataBase.tableInsert(client);
 		}
-		br.close();
+
 	}
 	
 	public void addToQueue(String name, int id, int disabilities) {
@@ -79,6 +81,8 @@ public class Bank {
 	
 	public Client searchClientFromQueue() throws NotFoundException {
 		int key = generalQueue.dequeue().getId();
+		System.out.println(key);
+		System.out.println(clientDataBase.tableLength());
 		Client client = clientDataBase.tableRetrieve(key);
 		
 		return client;
@@ -86,8 +90,9 @@ public class Bank {
 	
 	public Client searchClientFromPriorityQueue() throws EmptyStructureException, NotFoundException {
 		int key = priorityQueue.extractMax().getId();
+		System.out.println(clientDataBase.tableLength());
 		Client client = clientDataBase.tableRetrieve(key);
-		
+		System.out.println(key);
 		return client;
 	}
 	
@@ -109,7 +114,10 @@ public class Bank {
 	}
 	
 	public void cancelAccount(Client client,String reason) throws FullStructureException, NotFoundException {
-		client.getAccount().setRetirementReason(reason);
+		String date = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+		date = date +" "+String.valueOf(calendar.get(Calendar.SECOND));
+		date = date +" "+String.valueOf(calendar.get(Calendar.MINUTE));
+		client.getAccount().setRetirementReason(date+"\n"+reason);
 		retiredClients.tableInsert(client);
 		clientDataBase.tableDelete(client.getId());
 	}
@@ -285,6 +293,14 @@ public class Bank {
             } 
         } 
         return c;
+    }
+    
+    public void undo() throws NotFoundException, FullStructureException {
+    	if(!undoStack.isEmpty()) {
+    		Client client = undoStack.pop();
+    		clientDataBase.tableDelete(client.getId());
+    		clientDataBase.tableInsert(client);	
+    	}
     }
 
 	
