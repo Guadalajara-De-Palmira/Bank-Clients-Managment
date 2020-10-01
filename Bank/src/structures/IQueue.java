@@ -2,7 +2,7 @@ package structures;
 
 import java.util.List;
 
-public interface IQueue<T extends Comparable<T>> {
+public interface IQueue<T> {
 	
 	public void enqueue(T value);
 	

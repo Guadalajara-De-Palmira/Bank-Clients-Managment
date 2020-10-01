@@ -2,12 +2,14 @@ package model;
 
 import java.util.Calendar;
 
-public class Client implements Comparable<Client>{
+public class Client implements Comparable<Client>,Cloneable{
 	private String name;
 	private int id;
 	private Account account;
 	private CreditCard creditCard;
 	private String entranceDate;
+
+
 	private int disabilities;
 	
 	public Client(String name, int id, Account account, CreditCard creditCard, String entranceDate, int disabilities) {
@@ -43,6 +45,27 @@ public class Client implements Comparable<Client>{
 	public int getDisabilities() {
 		return disabilities;
 	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	public void setCreditCard(CreditCard creditCard) {
+		this.creditCard = creditCard;
+	}
+
+	public void setEntranceDate(String entranceDate) {
+		this.entranceDate = entranceDate;
+	}
+
+	public void setDisabilities(int disabilities) {
+		this.disabilities = disabilities;
+	}
+
 
 	@Override
 	public int compareTo(Client toCompare) {

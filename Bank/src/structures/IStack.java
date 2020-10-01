@@ -2,7 +2,7 @@ package structures;
 
 import java.util.List;
 
-public interface IStack <T extends Comparable<T>> {
+public interface IStack <T> {
 
 	
 	public void push(T value);

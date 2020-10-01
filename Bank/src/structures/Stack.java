@@ -2,7 +2,7 @@ package structures;
 
 import java.util.List;
 
-public class Stack <T extends Comparable<T>> implements IStack<T>{
+public class Stack <T> implements IStack<T>{
 	
 	private IQueue<T> queue;
 	

@@ -3,7 +3,7 @@ package structures;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Queue<T extends Comparable<T>> implements IQueue<T> {
+public class Queue<T> implements IQueue<T> {
 
 	private Node first;
 	private Node last;

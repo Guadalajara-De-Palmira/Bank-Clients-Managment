@@ -3,22 +3,27 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import customStructureExceptions.EmptyStructureException;
 import customStructureExceptions.FullStructureException;
+import customStructureExceptions.KeyDifferenceException;
+import customStructureExceptions.NotFoundException;
 import structures.*;
 
 public class Bank {
 	
 	public static final String CLIENTS_PATH = "data/BANK_CLIENTS.csv";
-	private Queue<Client> generalQueue;
-	private PriorityQueue<Client> priorityQueue;
+	private Queue<ClientInQueue> generalQueue;
+	private PriorityQueue<ClientInQueue> priorityQueue;
 	private Stack<Client> undoStack;
 	private HashTable<Integer,Client> clientDataBase;
 	private HashTable<Integer,Client> retiredClients;
 	
 	public Bank () throws IOException, FullStructureException {
-		generalQueue = new Queue<Client>();
-		priorityQueue = new PriorityQueue<Client>(10);
+		generalQueue = new Queue<ClientInQueue>();
+		priorityQueue = new PriorityQueue<ClientInQueue>(10);
 		undoStack = new Stack<Client>();
 		clientDataBase = new HashTable<Integer,Client>(50);
 		retiredClients = new HashTable<Integer,Client>(50);
@@ -61,5 +66,186 @@ public class Bank {
 		br.close();
 	}
 	
+	public void addToQueue(String name, int id, int disabilities) {
+		ClientInQueue newClient = new ClientInQueue(name,id,disabilities);
+		generalQueue.enqueue(newClient);
+	}
+	
+	public void addToPriorityQueue(String name, int id, int disabilities) throws KeyDifferenceException {
+		ClientInQueue newClient = new ClientInQueue(name,id,disabilities);
+		priorityQueue.insert(newClient);
+	}
+	
+	public Client searchClientFromQueue() throws NotFoundException {
+		int key = generalQueue.dequeue().getId();
+		Client client = clientDataBase.tableRetrieve(key);
+		
+		return client;
+	}
+	
+	public Client searchClientFromPriorityQueue() throws EmptyStructureException, NotFoundException {
+		int key = priorityQueue.extractMax().getId();
+		Client client = clientDataBase.tableRetrieve(key);
+		
+		return client;
+	}
+	
+	public void payCreditCard(Client client,boolean option,int amount) {
+		Client newClient = cloneClient(client);
+		undoStack.push(newClient);
+		if(option && client.getAccount().getSavings()>=amount) {
+			double savings = client.getAccount().getSavings();
+			client.getAccount().setSavings(savings-amount);
+			double credit = client.getCreditCard().getUsedAmount();
+			client.getCreditCard().setUsedAmount(credit-amount);
+			
+		}else if(!option) {
+			double savings = client.getAccount().getSavings();
+			client.getAccount().setSavings(savings-amount);
+			double credit = client.getCreditCard().getUsedAmount();
+			client.getCreditCard().setUsedAmount(credit-amount);
+		}
+	}
+	
+	public void cancelAccount(Client client,String reason) throws FullStructureException, NotFoundException {
+		client.getAccount().setRetirementReason(reason);
+		retiredClients.tableInsert(client);
+		clientDataBase.tableDelete(client.getId());
+	}
+	
+	public void deposit(Client client, double amount) {
+		double savings = client.getAccount().getSavings();
+		client.getAccount().setSavings(savings+amount);
+		
+	}
+	
+	public void getTable(int sortAlgorithm) throws NotFoundException {
+		List<ClientInQueue> list = new ArrayList<>();
+		
+		List<ClientInQueue> queueList = generalQueue.getElementsList();
+		
+		for(int i=0;i<queueList.size();i++) {
+			list.add(queueList.get(i));
+		}
+		
+		queueList = priorityQueue.getList();
+		
+		for(int i=0;i<queueList.size();i++) {
+			list.add(queueList.get(i));
+		}
+		
+		List<Client> allClientsList = new ArrayList<>();
+		
+		for(int i=0;i<list.size();i++) {
+			int clientkey = list.get(i).getId();
+			allClientsList.add(clientDataBase.tableRetrieve(clientkey));
+		}
+
+		switch(sortAlgorithm) {
+
+		case 0: mergeSort(allClientsList,0,allClientsList.size()-1);
+			
+		case 1:	selectionSort(allClientsList);
+			
+		case 2:
+			
+		case 3:
+
+		}
+	}
+	
+	public  void merge(List<Client> list,int p,int q, int r){
+		
+        int n1 = q - p + 1; 
+        int n2 = r - q; 
+		
+		List<Client> left = new ArrayList<>();
+		List<Client> right = new ArrayList<>();
+		
+		for(int i = 0; i < n1; i++) {
+			left.add(list.get(p+i));
+		}
+		
+		for(int j = 0; j < n2; j++) {
+			right.add(list.get(q+1+j));
+		}
+		
+		int i = 0;
+		int j = 0;
+		
+        int k = p; 
+        while (i < n1 && j < n2) { 
+			int comparation = left.get(i).getName().compareTo(right.get(j).getName());
+			if(comparation<=0) {
+				list.set(k, left.get(i));
+				i++;
+			} 
+            else { 
+                list.set(k, right.get(j));
+				j++;
+            } 			
+
+            k++; 
+        }
+        
+        while (i < n1) { 
+			list.set(k, left.get(i)); 
+            i++; 
+            k++; 
+        } 
+  
+        while (j < n2) { 
+            list.set(k, right.get(j));
+            j++; 
+            k++; 
+        } 
+        
+		
+	}
+	
+	public void mergeSort(List<Client> list,int p,int r) {
+		
+		if(p<r) {
+			int q = (p+r)/2;
+			mergeSort(list,p,q);
+			mergeSort(list,q+1,r);
+			merge(list,p,q,r);
+		}
+	}
+	
+	public void selectionSort(List<Client> list) {
+        for (int i = 0; i < list.size() - 1; i++)  
+        {  
+            int index = i;  
+            for (int j = i + 1; j < list.size(); j++){  
+                if (list.get(j).getId() < list.get(index).getId()){  
+                    index = j;//searching for lowest index  
+                }  
+            }  
+            Client aux = list.get(index);   
+            list.set(index, list.get(i));  
+            list.set(i, aux);  
+        } 
+		
+	}
+	
+	public Client cloneClient(Client client) {
+		String name = client.getName();
+		int id = client.getId();
+		String entranceDate = client.getEntranceDate();
+		int disabilities = client.getDisabilities();
+		
+		int accountID = client.getAccount().getId();
+		double accountSavings = client.getAccount().getSavings();
+		Account newAccount = new Account(accountID, accountSavings);
+		
+		int cardID = client.getCreditCard().getId();
+		double cardUsedAmount = client.getCreditCard().getUsedAmount();
+		CreditCard newCard = new CreditCard(cardID, cardUsedAmount);
+		
+		
+		Client newClient = new Client(name, id, newAccount, newCard, entranceDate, disabilities);
+		return newClient;
+	}
 	
 }
