@@ -14,6 +14,7 @@ import customStructureExceptions.FullStructureException;
 import customStructureExceptions.KeyDifferenceException;
 import customStructureExceptions.NotFoundException;
 import structures.*;
+import tests.Client;
 
 public class Bank {
 	
@@ -293,6 +294,53 @@ public class Bank {
             } 
         } 
         return c;
+    }
+    
+    public void heapSort(List<Client> list) {
+    	Client[] array = new Client[list.size()];
+    	array = list.toArray(array);
+    	array = heapSortRecursive(array);
+    	list = Arrays.asList(array);
+    }
+    
+    public Client[] heapSortRecursive(Client[] client) { 
+    	int n = client.length; 
+
+    	for (int i = n / 2 - 1; i >= 0; i--) {
+    		heapify(client, n, i); 
+    	}
+
+    	for (int i=n-1; i>0; i--) { 
+
+    		Client temp = client[0]; 
+    		client[0] = client[i]; 
+    		client[i] = temp; 
+
+    		heapify(client, i, 0); 
+    	}
+    	return client;
+    } 
+
+    public void heapify(Client[] client, int n, int i) { 
+    	int largest = i; 
+    	int l = 2*i + 1; 
+    	int r = 2*i + 2; 
+
+    	if (l < n && client[l].getEntranceDate().compareTo(client[largest].getEntranceDate()) > 0) {
+    		largest = l; 
+    	}
+
+    	if (r < n && client[r].getEntranceDate().compareTo(client[largest].getEntranceDate()) > 0) {
+    		largest = r; 
+    	}
+
+    	if (largest != i) { 
+    		Client swap = client[i]; 
+    		client[i] = client[largest]; 
+    		client[largest] = swap; 
+
+    		heapify(client, n, largest); 
+    	} 
     }
     
     public void undo() throws NotFoundException, FullStructureException {
