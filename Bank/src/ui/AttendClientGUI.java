@@ -3,6 +3,7 @@ package ui;
 import java.io.IOException;
 
 import customStructureExceptions.EmptyStructureException;
+import customStructureExceptions.FullStructureException;
 import customStructureExceptions.NotFoundException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,6 +59,16 @@ public class AttendClientGUI {
     	mainWindow.getMainPane().setCenter(newWindow);
     }
 
+    @FXML
+    void undo(ActionEvent event) {
+    	try {
+			bank.undo();
+		} catch (NotFoundException | FullStructureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
     @FXML
     public void attendQueue(ActionEvent event) throws IOException {
     	

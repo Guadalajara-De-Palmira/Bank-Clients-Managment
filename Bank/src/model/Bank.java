@@ -14,7 +14,6 @@ import customStructureExceptions.FullStructureException;
 import customStructureExceptions.KeyDifferenceException;
 import customStructureExceptions.NotFoundException;
 import structures.*;
-import tests.Client;
 
 public class Bank {
 	
@@ -129,7 +128,7 @@ public class Bank {
 		
 	}
 	
-	public void getTable(int sortAlgorithm) throws NotFoundException {
+	public List<Client> getTable(int sortAlgorithm) throws NotFoundException {
 		List<ClientInQueue> list = new ArrayList<>();
 		
 		List<ClientInQueue> queueList = generalQueue.getElementsList();
@@ -143,7 +142,7 @@ public class Bank {
 		for(int i=0;i<queueList.size();i++) {
 			list.add(queueList.get(i));
 		}
-		
+		System.out.println();
 		List<Client> allClientsList = new ArrayList<>();
 		
 		for(int i=0;i<list.size();i++) {
@@ -154,14 +153,20 @@ public class Bank {
 		switch(sortAlgorithm) {
 
 		case 0: mergeSort(allClientsList,0,allClientsList.size()-1);
+		break;
 			
 		case 1:	selectionSort(allClientsList);
+		break;
 			
-		case 2:
+		case 2: quickSort(allClientsList);
+		break;
 			
-		case 3:
+		case 3: heapSort(allClientsList);
+		break;
 
 		}
+		
+		return allClientsList;
 	}
 	
 	public  void merge(List<Client> list,int p,int q, int r){

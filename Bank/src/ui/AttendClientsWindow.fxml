@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.241" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Canvas fx:id="canvasPriorityQueue" height="38.0" layoutX="331.0" layoutY="181.0" width="218.0" />
@@ -14,5 +13,6 @@
       <Canvas fx:id="canvasQueue" height="38.0" layoutX="52.0" layoutY="181.0" width="218.0" />
       <Label layoutX="130.0" layoutY="30.0" text="Fila General" />
       <Label layoutX="403.0" layoutY="30.0" text="Fila Prioritaria" />
+      <Button layoutX="268.0" layoutY="361.0" mnemonicParsing="false" onAction="#undo" text="deshacer" />
    </children>
 </Pane>

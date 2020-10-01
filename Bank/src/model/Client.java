@@ -70,6 +70,10 @@ public class Client implements Comparable<Client>,Cloneable{
 	public int hashCode() {
 		return id;
 	}
+	
+	public double getAmount() {
+		return account.getSavings();
+	}
 
 	@Override
 	public int compareTo(Client toCompare) {
