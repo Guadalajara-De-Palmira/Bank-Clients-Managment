@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import customStructureExceptions.EmptyStructureException;
@@ -228,6 +229,64 @@ public class Bank {
         } 
 		
 	}
+	
+	public void quickSort(List<Client> list) {
+		Client[] array = new Client[list.size()];
+		array = quickSortIterative(array, 0, array.length - 1);
+		list = Arrays.asList(array);
+	}
+	
+	public int partition(Client[] c, int low, int high){
+		
+        double pivot = c[high].getAccount().getSavings(); 
+   
+        int i = (low - 1); 
+        for (int j = low; j <= high - 1; j++) { 
+
+            if (c[j].getAccount().getSavings() <= pivot) { 
+                i++; 
+
+                Client temp = c[i]; 
+                c[i] = c[j]; 
+                c[j] = temp; 
+            } 
+        } 
+
+        Client temp = c[i + 1]; 
+        c[i + 1] = c[high]; 
+        c[high] = temp; 
+  
+        return i + 1; 
+    } 
+  
+    public Client[] quickSortIterative(Client[] c, int l, int h)  { 
+         
+        int[] stack = new int[h - l + 1]; 
+  
+        int top = -1; 
+  
+        stack[++top] = l; 
+        stack[++top] = h; 
+  
+        while (top >= 0) { 
+            h = stack[top--]; 
+            l = stack[top--]; 
+  
+            int p = partition(c, l, h); 
+  
+            if (p - 1 > l) { 
+                stack[++top] = l; 
+                stack[++top] = p - 1; 
+            } 
+
+            if (p + 1 < h) { 
+                stack[++top] = p + 1; 
+                stack[++top] = h; 
+            } 
+        } 
+        return c;
+    }
+
 	
 	public Client cloneClient(Client client) {
 		String name = client.getName();
